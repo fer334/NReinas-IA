@@ -8,7 +8,7 @@ N=4
 list_solution=[]
 visited_nodes=0
 
-#
+
 
 def draw_solution(list_solution):
     for i in range(len(list_solution)):
@@ -47,11 +47,11 @@ def is_valid(row_quen,colum_quen,quen_positions_aux):
             return True
 
 
-def findQuenSolution(quen_colum,quen_positions,solution):
+def findQuenSolution(quen_colum,quen_positions):
     """Encuentra una unica solucion para el problema de las N-Reinas"""
 
     if(quen_colum==N):
-        return solution
+        return 
 
     global visited_nodes
     
@@ -60,22 +60,20 @@ def findQuenSolution(quen_colum,quen_positions,solution):
 
         if (is_valid(row_quen,quen_colum,quen_positions)):
             quen_positions[quen_colum]=row_quen
-            solution[quen_colum]=row_quen
-            array_solution=findQuenSolution(quen_colum+1,quen_positions,solution)
-            if( not -10 in array_solution):
-                return array_solution
+            array_solution=findQuenSolution(quen_colum+1,quen_positions)
+            if( not -10 in quen_positions):
+                return 
     
     quen_positions[quen_colum]=-10
-    solution[quen_colum]=-10
-    return solution
+    return 
 
 
-def findAllQuenSolution(quen_colum,quen_positions,solution):    
+def findAllQuenSolution(quen_colum,quen_positions):    
     """Encuentra todas las soluciones para el problema de las N-Reinas"""
 
     if(quen_colum==N):
         global list_solution
-        list_solution.append(copy.deepcopy(solution))
+        list_solution.append(copy.deepcopy(quen_positions))
         return
    
     global visited_nodes
@@ -83,11 +81,9 @@ def findAllQuenSolution(quen_colum,quen_positions,solution):
         visited_nodes+=1
         if (is_valid(row_quen,quen_colum,quen_positions)):
             quen_positions[quen_colum]=row_quen
-            solution[quen_colum]=row_quen
-            array_solution=findAllQuenSolution(quen_colum+1,quen_positions,solution)
+            array_solution=findAllQuenSolution(quen_colum+1,quen_positions)
     
     quen_positions[quen_colum]=-10
-    solution[quen_colum]=-10
     
     return
 
@@ -101,31 +97,30 @@ def n_quen():
         return
     
     quen_positions=array.array('i',[ -10 for i in range(N)]) #inicializamos el array de posiciones con valores -1 
-    solution=array.array('i',[ -10 for i in range(N)])
-    
+
     print(" Seleccione una de las opciones: \n  Opcion 1: Encontrar una unica Solucion \n Opcion 2: Encotrar todas las soluciones     ")
     option=int(input("Ingrese la Opcion(1 o 2):"))
    
     
     if(option==1):
         start = timeit.default_timer()
-        findQuenSolution(0,quen_positions,solution)
+        findQuenSolution(0,quen_positions)
         stop = timeit.default_timer()
         print("\n\nSolucion : ")
-        draw_solution([solution])
+        draw_solution([quen_positions])
         print('Cantidad de nodos Expandidos:',visited_nodes)
-        print('Tiempo en encontrar solucion: ', stop - start)  
+        print('Tiempo en encontrar solucion: ', stop - start, 'segundos')  
 
     
     elif(option==2):
         start = timeit.default_timer()
-        findAllQuenSolution(0,quen_positions,solution)
+        findAllQuenSolution(0,quen_positions)
         stop = timeit.default_timer()
         print('Las soluciones encontradas son :')
         draw_solution(list_solution)
         print('Cantidad de soluciones Encontradas:', len(list_solution))
         print('Cantidad de nodos Expandidos:',visited_nodes)
-        print('Tiempo en encontrar todas las soluciones: ', stop - start)  
+        print('Tiempo en encontrar todas las soluciones: ', stop - start, 'segundos')  
      
     else:
         print("Opcion ingresada no valida") 
