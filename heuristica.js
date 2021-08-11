@@ -1,4 +1,5 @@
 const main = (N, printMat = true, printHash = true) => {
+  let previousCol
   const print_board = (board) => {
     if (printMat) {
       for (let i = 0; i < board.length; i++) {
@@ -114,7 +115,14 @@ const main = (N, printMat = true, printHash = true) => {
         }
       }
     }
-    return minPos[ getRandomInt(0, minPos.length)];
+    // console.log(min,minPos);
+    res = minPos[ getRandomInt(0, minPos.length)]
+    if (previousCol == res.j){
+      board[res.i][res.j] = Infinity;
+      return min_conflict(board);
+    }
+    previousCol=res.j;
+    return res;
   };
 
   const queenPosFromCol = (board, pos) => {
@@ -181,12 +189,15 @@ const main = (N, printMat = true, printHash = true) => {
 
   nodes = 0;
   console.time("algo");
-  while (!isSolved(board)) {
+  while (!isSolved(board) && nodes < 1000) {
     iterate(board);
     nodes++;
   }
   console.timeEnd("algo");
   console.log("Nodes: ", nodes);
+  if (nodes == 1000) {
+    console.log("No se pudo resolver");
+  }
+  return isSolved(board)? nodes : -1;
 };
-
-main(100,printMat = false, );
+main(100,printMat = false, printHash=false )
