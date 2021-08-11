@@ -1,7 +1,10 @@
 import timeit
 import numpy as np
 
+previous_col = np.inf
+
 def main(N, printMat=True, printHash=True):
+
     def generate_random_int(max, min):
         # return Math.floor(Math.random() * (max - min)) + min;
         return int(np.floor(np.random.rand() * (max - min) + min))
@@ -62,8 +65,6 @@ def main(N, printMat=True, printHash=True):
         return board
 
     def calc_conflicts():
-      
-
         for col in range(N):
             for row in range(N):
                 if board[row][col] != -1:
@@ -74,6 +75,7 @@ def main(N, printMat=True, printHash=True):
 
     def iterate():
         def min_conflict():
+            global previous_col
             min = np.inf
             minPos = []
             for i in range(N):
@@ -83,8 +85,11 @@ def main(N, printMat=True, printHash=True):
                         minPos = [{ "i": i, "j": j }]
                     elif board[i][j] == min:
                         minPos.append({ "i": i, "j": j })
-            # print(minPos)
-            # print('ue','\n',board)
+            res = minPos[generate_random_int(0, len(minPos))]
+            if previous_col == res["j"]:
+                board[res["i"]][res["j"]] = 9999
+                return min_conflict()
+            previous_col = res["j"]
             return minPos[ generate_random_int(0,len(minPos)) ]
         def queenPosFromCol(pos):
             row = pos["i"]
@@ -113,11 +118,8 @@ def main(N, printMat=True, printHash=True):
                     if attackQueens != 0:
                        return False
         return True
+
     board = generate_board()
-    # calc_conflicts()
-    # print_board(board)
-    # iterate()
-    # iterate()
     nodes = 0
     start = timeit.default_timer()
     while(not is_solved()):
@@ -128,4 +130,4 @@ def main(N, printMat=True, printHash=True):
     print("Time: ", stop - start)
 
 
-main(80, printMat=False, printHash=False)
+main(6, printMat=False, printHash=False)
