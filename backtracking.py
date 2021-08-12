@@ -46,6 +46,7 @@ def is_valid(row_quen,colum_quen,quen_positions_aux):
         else: #si no esta ocupado retornamos  True
             return True
 
+#quen_pisition--> !=-10
 
 def findQuenSolution(quen_colum,quen_positions):
     """Encuentra una unica solucion para el problema de las N-Reinas"""
@@ -67,7 +68,8 @@ def findQuenSolution(quen_colum,quen_positions):
     quen_positions[quen_colum]=-10
     return 
 
-
+#[0,2,3,-10]
+#[0,2,-10,-10]
 def findAllQuenSolution(quen_colum,quen_positions):    
     """Encuentra todas las soluciones para el problema de las N-Reinas"""
 
@@ -101,7 +103,8 @@ def n_quen():
     print(" Seleccione una de las opciones: \n  Opcion 1: Encontrar una unica Solucion \n Opcion 2: Encotrar todas las soluciones     ")
     option=int(input("Ingrese la Opcion(1 o 2):"))
    
-    
+    #quen_position=[0,-10,-10,-10]
+
     if(option==1):
         start = timeit.default_timer()
         findQuenSolution(0,quen_positions)
