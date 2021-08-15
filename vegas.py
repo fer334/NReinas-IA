@@ -4,10 +4,15 @@ import copy
 import timeit
 import random as rd
 import time
+import datetime
+import sys
+
 #variables globales
 N=4
 list_solution=[]
 visited_nodes=0
+endTimeFinished = datetime.datetime.now() + datetime.timedelta(minutes=1)
+
 
 rd.seed(time.time()) #generar diferente numeros aleatorios
 
@@ -62,9 +67,12 @@ def calculatePosibleValues(colum_quen,quen_positions):
 
 def findQuenSolution(quen_colum,quen_positions,posible_values):
     """Encuentra una unica solucion para el problema de las N-Reinas"""
-
+    if (datetime.datetime.now() >endTimeFinished):
+        print("No se encontro solucion, se termina la ejecucion del Programa")
+        sys.exit()
+    
     if(quen_colum==N):  #encontre un solucio
-        return 
+        return  
 
     if len(posible_values)==0: #la varaiable de desicion se quedo sin valores posibles que tomar
         return 
@@ -73,6 +81,8 @@ def findQuenSolution(quen_colum,quen_positions,posible_values):
     global visited_nodes
 
     while ( len(posible_values_aux)!=0):
+        #Si ya paso los 10 minutos, volver
+
         visited_nodes+=1 #cantidad de nodos visitados
         random_position=rd.randint(0,len(posible_values_aux)-1) #generamos los valores aleatorios
         quen_positions[quen_colum]=posible_values_aux[random_position] #asignamos la posicion  elegida en el tablero
@@ -82,7 +92,7 @@ def findQuenSolution(quen_colum,quen_positions,posible_values):
 
         if (not -10 in quen_positions):
             return 
-    
+
     quen_positions[quen_colum]=-10
 
     return        
