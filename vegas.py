@@ -13,19 +13,21 @@ rd.seed(time.time()) #generar diferente numeros aleatorios
 
 def draw_solution(list_solution):
     """Grafica el Tablero de solucion"""
+    
     for i in range(len(list_solution)):
         print("La solucion encontrada es: \n")
         line=""
-        for j in range(len(list_solution[i])):
-            newLine="  |"
-            for k in range(len(list_solution[i])):
-                if(k == list_solution[i][j]):
-                    newLine+="  O"
-                else :
-                    newLine+="  X"
-            newLine+="  |\n"
-            line+=newLine
-        print(line)    
+        if(N<=40):
+            for j in range(len(list_solution[i])):
+                newLine="  |"
+                for k in range(len(list_solution[i])):
+                    if(k == list_solution[i][j]):
+                        newLine+="  R"
+                    else :
+                        newLine+="  -"
+                newLine+="  |\n"
+                line+=newLine
+            print(line)    
         print('Vector solucion:',list_solution[i].tolist(),'\n' )
 
 def subs(row1,col1,row2,col2):
@@ -61,13 +63,6 @@ def calculatePosibleValues(colum_quen,quen_positions):
 def findQuenSolution(quen_colum,quen_positions,posible_values):
     """Encuentra una unica solucion para el problema de las N-Reinas"""
 
-    """ 
-    Valores que se van eligiendo en cada llamada
-    print('quen position',quen_positions)
-    print('posible values',posible_values)
-    print('column',quen_colum)
-    """
-
     if(quen_colum==N):  #encontre un solucio
         return 
 
@@ -79,11 +74,9 @@ def findQuenSolution(quen_colum,quen_positions,posible_values):
 
     while ( len(posible_values_aux)!=0):
         visited_nodes+=1 #cantidad de nodos visitados
-
         random_position=rd.randint(0,len(posible_values_aux)-1) #generamos los valores aleatorios
         quen_positions[quen_colum]=posible_values_aux[random_position] #asignamos la posicion  elegida en el tablero
-        posible_values_aux.remove(posible_values_aux[random_position]) #el valor elegido ya eliminamos de las posibles soluciones
-        
+        posible_values_aux.remove(posible_values_aux[random_position]) #el valor elegido ya eliminamos de las posibles soluciones  
         next_posible_values=calculatePosibleValues(quen_colum+1,quen_positions)
         array_solution=findQuenSolution(quen_colum+1,quen_positions,next_posible_values)
 
@@ -101,6 +94,7 @@ def findQuenSolution(quen_colum,quen_positions,posible_values):
         
 
 def n_quen():
+    print("\n -----------------Las Vegas----------------- \n")
     global N
     N=int(input("Ingrese el tamaño de N:")) 
 
@@ -115,7 +109,7 @@ def n_quen():
     findQuenSolution(0,quen_positions,posible_values)
     stop = timeit.default_timer()
 
-    print("\n\nSolucion : ")
+    print("\n\n")
     draw_solution([quen_positions])
     print('Cantidad de nodos Expandidos:',visited_nodes)
     print('Tiempo en encontrar la solucion: ', stop - start, 'segundos')    

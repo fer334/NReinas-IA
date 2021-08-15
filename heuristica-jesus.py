@@ -13,19 +13,22 @@ visited_nodes=0
 rd.seed(time.time())
 
 def draw_solution(list_solution):
+    """Grafica el Tablero de solucion"""
+
     for i in range(len(list_solution)):
-        print("Esta es la solucion nr:",i+1,"\n")
+        print("La solucion encontrada es: \n")
         line=""
-        for j in range(len(list_solution[i])):
-            newLine="  |"
-            for k in range(len(list_solution[i])):
-                if(k == list_solution[i][j]):
-                    newLine+="  R"
-                else :
-                    newLine+="  -"
-            newLine+="  |\n"
-            line+=newLine
-        print(line)    
+        if(N<=40):
+            for j in range(len(list_solution[i])):
+                newLine="  |"
+                for k in range(len(list_solution[i])):
+                    if(k == list_solution[i][j]):
+                        newLine+="  R"
+                    else :
+                        newLine+="  -"
+                newLine+="  |\n"
+                line+=newLine
+            print(line)    
         print('Vector solucion:',list_solution[i].tolist(),'\n' )
 
 def generateInitialState():
@@ -78,7 +81,7 @@ def getConflictVars(base):
                     result.append(i)
                     min=P[j][i]
                 elif P[j][i]==min: #si encuentro uno que es igual, agrego si es que ya no lo agregue anteriormente
-                    if j not in result:
+                    if i not in result:
                         result.append(i)
     return (result,min)
 
@@ -92,17 +95,19 @@ def getValues(col,min):
 
 def findMinConf():
     positions,ant,positions_conflict=generateInitialState()
-    global P
+    global P, visited_nodes
     min=-N
     while (not is_valid(positions_conflict)):
-    #for cont in range(10): 
+    #for cont in range(50): 
+       visited_nodes+=1 #Aumentamos a 1 la cantidad de nodos visitados
        vars,min =getConflictVars(-N)
+       #print("vars:",vars,"min:",min)
        try:
             vars.remove(ant) #elimino mi variable anterior para no elegir mas esa
        except Exception: 
            pass
 
-       while(vars==[]):
+       while(len(vars)==0):
            vars,min=getConflictVars(min)
 
        varCol=vars[rd.randint(0,len(vars)-1)]
@@ -115,7 +120,7 @@ def findMinConf():
        except Exception:
            pass
 
-       while(values==[]):
+       while(len(values)==0):
             if(len(vars)==0):
                 vars,min=getConflictVars(min)
             
@@ -134,29 +139,32 @@ def findMinConf():
        positions_conflict[varCol]=min
        positions[varCol]=nextRow
        ant=varCol
-    
-    
+       if is_valid(positions_conflict): return positions
+
     return positions
 
 
 M=[]
 def main():
-    global P
+
+    print("\n -----------------Heuristica----------------- \n")
     global N
     N=int(input("Ingrese el tamaño de N:")) 
     if(N<4):
         print("N debe ser de un tamaño mayor que 4")
         return
-
+    global P
     for i in range(N) : #inicializo todo a cero mi matriz de Pesos
         P.append([ 0 for j in range(N)])
-    
-    
+
+
     start = timeit.default_timer()
     result=findMinConf()
+    position,n,pe=generateInitialState()
     stop = timeit.default_timer()
+    print("\n\n")
     draw_solution([result])
-    print('My solution is:',result)
+    print('Cantidad de nodos Expandidos:',visited_nodes)
     print('Tiempo en encontrar todas las soluciones: ', stop - start, 'segundos')  
 
 

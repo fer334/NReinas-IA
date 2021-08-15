@@ -11,19 +11,22 @@ visited_nodes=0
 
 
 def draw_solution(list_solution):
+    """Funcion que grafica el Tablero de Ajedrez"""
+    
     for i in range(len(list_solution)):
         print("Esta es la solucion nr:",i+1,"\n")
         line=""
-        for j in range(len(list_solution[i])):
-            newLine="  |"
-            for k in range(len(list_solution[i])):
-                if(k == list_solution[i][j]):
-                    newLine+="  O"
-                else :
-                    newLine+="  X"
-            newLine+="  |\n"
-            line+=newLine
-        print(line)    
+        if(N<=40):
+            for j in range(len(list_solution[i])):
+                newLine="  |"
+                for k in range(len(list_solution[i])):
+                    if(k == list_solution[i][j]):
+                        newLine+="  R"
+                    else :
+                        newLine+="  -"
+                newLine+="  |\n"
+                line+=newLine
+            print(line)    
         print('Vector solucion:',list_solution[i].tolist(),'\n' )
 
 def subs(row1,col1,row2,col2):
@@ -32,7 +35,7 @@ def subs(row1,col1,row2,col2):
     
 
 def is_valid(row_quen,colum_quen,quen_positions_aux):
-    """Verifica si una nueva reina no es ataca por las demas reinas anteriores"""
+    """Verifica si una nueva reina no es atacada por las demas reinas anteriores"""
 
     #verificamos que no exista dos reinas en la misma fila
     if row_quen in quen_positions_aux:
@@ -51,7 +54,7 @@ def is_valid(row_quen,colum_quen,quen_positions_aux):
 def findQuenSolution(quen_colum,quen_positions):
     """Encuentra una unica solucion para el problema de las N-Reinas"""
 
-    if(quen_colum==N):
+    if(quen_colum==N): #Condicion Meta: Ya coloque todas mis reinas en el tablero
         return 
 
     global visited_nodes
@@ -92,6 +95,8 @@ def findAllQuenSolution(quen_colum,quen_positions):
         
 
 def n_quen():
+
+    print("\n -----------------Backtracking----------------- \n")
     global N
     N=int(input("Ingrese el tamaño de N:")) 
     if(N<4):
