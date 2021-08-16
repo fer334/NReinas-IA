@@ -8,7 +8,7 @@
 - Nicolas Chamorro.
 - Gerardo Cabrera.
 
-## Pasos para corrrer el programa :
+## Pasos para correr el programa :
 
 ```
 python main.py
