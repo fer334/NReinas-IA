@@ -165,7 +165,7 @@ def main():
     print("\n\n")
     draw_solution([result])
     print('Cantidad de nodos Expandidos:',visited_nodes)
-    print('Tiempo en encontrar todas las soluciones: ', stop - start, 'segundos')  
+    print('Tiempo en encontrar la solucion: ', stop - start, 'segundos')  
 
 
 main()
