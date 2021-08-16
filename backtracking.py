@@ -16,7 +16,7 @@ def draw_solution(list_solution):
     for i in range(len(list_solution)):
         print("Esta es la solucion nr:",i+1,"\n")
         line=""
-        if(N<=40):
+        if(N<=60):
             for j in range(len(list_solution[i])):
                 newLine="  |"
                 for k in range(len(list_solution[i])):

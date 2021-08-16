@@ -3,7 +3,7 @@ import os
 python_files={
     1:"backtracking.py",
     2:"vegas.py",
-    3:"heuristica-jesus.py"
+    3:"heuristica.py"
 }
 
 print('\nProblemas de las N-Reinas \n ')
