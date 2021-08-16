@@ -11,7 +11,7 @@ import sys
 N=4
 list_solution=[]
 visited_nodes=0
-endTimeFinished = datetime.datetime.now() + datetime.timedelta(minutes=1)
+endTimeFinished = datetime.datetime.now() + datetime.timedelta(minutes=10)
 
 
 rd.seed(time.time()) #generar diferente numeros aleatorios
